@@ -3,6 +3,7 @@
   "description": "cors-anywhere is a php reverse proxy which adds CORS headers to the proxy request.",
   "type": "library",
   "require": {
+    "php": "8.2",
     "guzzlehttp/guzzle": "^7.0",
     "symfony/http-foundation": "^6.0"
   },

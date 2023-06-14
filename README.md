@@ -1,4 +1,5 @@
 # cors-anywhere
+[![Latest Stable Version](http://poser.pugx.org/fakeheal/cors-anywhere/v)](https://packagist.org/packages/fakeheal/cors-anywhere) [![Total Downloads](http://poser.pugx.org/fakeheal/cors-anywhere/downloads)](https://packagist.org/packages/fakeheal/cors-anywhere) [![Latest Unstable Version](http://poser.pugx.org/fakeheal/cors-anywhere/v/unstable)](https://packagist.org/packages/fakeheal/cors-anywhere) [![License](http://poser.pugx.org/fakeheal/cors-anywhere/license)](https://packagist.org/packages/fakeheal/cors-anywhere) [![PHP Version Require](http://poser.pugx.org/fakeheal/cors-anywhere/require/php)](https://packagist.org/packages/fakeheal/cors-anywhere)
 
 `cors-anywhere` is a php reverse proxy which adds CORS headers to the proxy request.
 
