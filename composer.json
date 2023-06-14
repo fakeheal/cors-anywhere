@@ -4,7 +4,7 @@
   "type": "library",
   "require": {
     "guzzlehttp/guzzle": "^7.0",
-    "symfony/http-foundation": "^7.0"
+    "symfony/http-foundation": "^6.0"
   },
   "require-dev": {
     "rector/rector": "^0.17.1",
@@ -24,7 +24,7 @@
       "email": "fakeheal@gmail.com"
     }
   ],
-  "minimum-stability": "dev",
+  "minimum-stability": "stable",
   "config": {
     "allow-plugins": {
       "pestphp/pest-plugin": true
