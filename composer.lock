@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f3cc8b9f657ee6917fac53bea8b8bbd3",
+    "content-hash": "3061375721d6bad575e15bc3d5a9728c",
     "packages": [
         {
             "name": "guzzlehttp/guzzle",
@@ -2119,12 +2119,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "d940d84ac2ff7d30e84a5c978415eb1729dee48f"
+                "reference": "a2412cc018d180aeeb62171a49e04cd2c049c09c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/d940d84ac2ff7d30e84a5c978415eb1729dee48f",
-                "reference": "d940d84ac2ff7d30e84a5c978415eb1729dee48f",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/a2412cc018d180aeeb62171a49e04cd2c049c09c",
+                "reference": "a2412cc018d180aeeb62171a49e04cd2c049c09c",
                 "shasum": ""
             },
             "require": {
@@ -2174,7 +2174,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-06-14T15:20:43+00:00"
+            "time": "2023-06-14T19:31:08+00:00"
         },
         {
             "name": "phpunit/php-code-coverage",
@@ -4477,7 +4477,9 @@
     },
     "prefer-stable": false,
     "prefer-lowest": false,
-    "platform": [],
+    "platform": {
+        "php": "^8.2"
+    },
     "platform-dev": [],
     "plugin-api-version": "2.3.0"
 }
