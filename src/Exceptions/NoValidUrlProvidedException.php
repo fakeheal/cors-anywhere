@@ -2,9 +2,7 @@
 
 namespace Fakeheal\CorsAnywhere\Exceptions;
 
-use Exception;
-
-class NoValidUrlProvidedException extends Exception
+class NoValidUrlProvidedException extends CorsAnywhereException
 {
 
 }
