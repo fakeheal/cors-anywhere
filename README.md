@@ -27,21 +27,25 @@ composer require fakeheal/cors-anywhere
 ```php
 <?php
 
-use Fakeheal\CorsAnywhere\Exceptions\NoValidUrlProvidedException;
+use Fakeheal\CorsAnywhere\Exceptions\CorsAnywhereException;
 use Fakeheal\CorsAnywhere\Proxy;
 
 // ...
 
-// allowed hosts passed down to the Proxy class
 try {
     $server = new Proxy([
+        // allowed hosts to proxy to
         'rescuetime.com',
         'google.com'
+    ], [
+        // allowed headers
+        'Content-Type',
+        'Accepts'    
     ]);
 
     // call handle that... handles everything
     $server->handle();
-} catch (NoValidUrlProvidedException $e) {
+} catch (CorsAnywhereException $e) {
     die($e->getMessage()); // or die trying
 }
 ```

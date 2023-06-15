@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\Response;
 class Proxy
 {
     private const METHOD_GET = 'GET';
+    private const METHOD_OPTIONS = 'OPTIONS';
     private const PARAM_URL = 'url';
 
     /**
@@ -34,7 +35,7 @@ class Proxy
         private ?Client $client = null
     ) {
         if (is_null($this->request)) {
-            $this->request = new Request($_GET, $_POST, [], [], [], $_SERVER);
+            $this->request = Request::createFromGlobals();
         }
 
         if (is_null($this->response)) {
@@ -91,7 +92,19 @@ class Proxy
      */
     public function handle(): void
     {
-        $this->redirect()->response->send();
+        if ($this->request->server->get('HTTP_ORIGIN')) {
+            $this->response->headers->set('Access-Control-Allow-Origin', $this->request->server->get('HTTP_ORIGIN'));
+            $this->response->headers->set('Access-Control-Allow-Credentials', true);
+        }
+
+        if ($this->request->getMethod() === self::METHOD_OPTIONS) {
+            $this->response->headers->set('Access-Control-Allow-Methods', ['GET', 'POST', 'OPTIONS']);
+            $this->response->headers->set('Access-Control-Allow-Headers', $this->allowedHeaders);
+        } else {
+            $this->redirect();
+        }
+
+        $this->response->send();
     }
 
     /**
