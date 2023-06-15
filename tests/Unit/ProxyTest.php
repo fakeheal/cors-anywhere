@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Response as HttpFoundationResponse;
 it('throws exception if disallowed host is passed', function () {
     $request = new Request(['url' => 'https://google.com']);
 
-    (new Proxy(['https://definitely-not-google.com'], $request))
+    (new Proxy(['https://definitely-not-google.com'], ['Content-Type', 'Accept'], $request))
         ->handle();
 })->throws(HostNotAllowedException::class);
 
@@ -25,7 +25,7 @@ it('passes headers up from proxy request response', function () {
     $request = new Request(['url' => 'https://google.com']);
     $response = new HttpFoundationResponse();
 
-    (new Proxy(['google.com'], $request, $response, $client))
+    (new Proxy(['google.com'], ['X-Foo'], $request, $response, $client))
         ->handle();
 
     expect($response->headers->get('X-Foo'))->toBe('Bar');
@@ -47,7 +47,7 @@ it('passes headers down to proxy request', function () {
     $request = new Request(['url' => 'https://google.com'], [], [], [], [], ['HTTP_X-Foo' => 'Bar']);
     $response = new HttpFoundationResponse();
 
-    (new Proxy(['google.com'], $request, $response, $client))
+    (new Proxy(['google.com'], ['X-Foo'], $request, $response, $client))
         ->handle();
 
     expect(count($container))->toBe(1)
@@ -71,7 +71,7 @@ it('passes GET parameters down to proxy request', function () {
     $request = new Request(['url' => 'https://google.com', 'param1' => 'value1', 'param2' => 'value2']);
     $response = new HttpFoundationResponse();
 
-    (new Proxy(['google.com'], $request, $response, $client))
+    (new Proxy(['google.com'], [], $request, $response, $client))
         ->handle();
 
 
@@ -97,7 +97,7 @@ it('passes POST parameters down to proxy request', function () {
 
     $response = new HttpFoundationResponse();
 
-    (new Proxy(['google.com'], $request, $response, $client))
+    (new Proxy(['google.com'], [], $request, $response, $client))
         ->handle();
 
 
@@ -123,7 +123,7 @@ it('uses correct URL for proxy request', function () {
 
     $response = new HttpFoundationResponse();
 
-    (new Proxy(['google.com'], $request, $response, $client))
+    (new Proxy(['google.com'], [], $request, $response, $client))
         ->handle();
 
 

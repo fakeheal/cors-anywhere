@@ -28,6 +28,7 @@ class Proxy
      */
     public function __construct(
         private readonly array $allowedHosts,
+        private readonly array $allowedHeaders = ['Content-Type', 'Accept'],
         private ?Request $request = null,
         private ?Response $response = null,
         private ?Client $client = null
@@ -66,9 +67,7 @@ class Proxy
             array_merge([
                 // response to proxy through 404, 500, etc
                 'http_errors' => false,
-                // "redirect" all headers
-                'headers' => $this->request->headers->all(),
-            ], $this->buildParameters())
+            ], $this->buildParameters(), $this->buildHeaders())
         );
 
         // pass response headers from proxy request to our response
@@ -126,4 +125,22 @@ class Proxy
             'form_params' => $this->request->getPayload()->all()
         ];
     }
+
+    /**
+     * Builds headers from incoming request, filtering out everything, but $allowedHeaders.
+     * @return array
+     */
+    private function buildHeaders(): array
+    {
+        $lowercaseAllowedHeaders = array_map(fn(string $value) => strtolower($value), $this->allowedHeaders);
+
+        $headers = array_filter(
+            $this->request->headers->all(),
+            fn(string $key) => in_array($key, $lowercaseAllowedHeaders),
+            ARRAY_FILTER_USE_KEY
+        );
+
+        return compact('headers');
+    }
+
 }
