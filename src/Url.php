@@ -17,6 +17,11 @@ readonly class Url
     private string $host;
 
     /**
+     * @var string|null - e.g. /my-feed
+     */
+    private ?string $path;
+
+    /**
      * @param string $url url to parse
      * @throws \Fakeheal\CorsAnywhere\Exceptions\NoValidUrlProvidedException
      */
@@ -26,9 +31,9 @@ readonly class Url
             throw new NoValidUrlProvidedException(sprintf("'%s' is invalid URL.", $url));
         }
 
-        ['scheme' => $scheme, 'host' => $host,] = parse_url($url);
+        $parsedUrl = parse_url($url);
 
-        if (! $host || ! $scheme) {
+        if (! isset($parsedUrl['scheme']) || ! $parsedUrl['scheme'] || ! isset($parsedUrl['host']) || ! $parsedUrl['host'] ) {
             throw new NoValidUrlProvidedException(
                 sprintf(
                     "'%s' is missing scheme (e.g. http(s) or host (e.g. example.com).",
@@ -37,8 +42,9 @@ readonly class Url
             );
         }
 
-        $this->scheme = $scheme;
-        $this->host = $host;
+        $this->scheme = $parsedUrl['scheme'];
+        $this->host = $parsedUrl['host'];
+        $this->path = $parsedUrl['path'] ?? null;
     }
 
     /**
@@ -57,8 +63,21 @@ readonly class Url
         return $this->host;
     }
 
+    /**
+     * @return ?string
+     */
+    public function getPath(): ?string
+    {
+        return $this->path;
+    }
+
+    /**
+     * Builds URL as string using parsed schema, host & path.
+     *
+     * @return string
+     */
     public function build(): string
     {
-        return sprintf("%s://%s", $this->getScheme(), $this->getHost());
+        return sprintf("%s://%s%s", $this->getScheme(), $this->getHost(), $this->getPath() ?? '');
     }
 }

@@ -34,3 +34,11 @@ it('url handles subdomains properly', function() {
        ->and($url->getScheme())->toBe('http')
        ->and($url->build())->toBe('http://www.google.com');
 });
+
+it('url parses path properly', function() {
+   $url = new Url('http://www.google.com/metallica-path');
+
+   expect($url->getHost())->toBe('www.google.com')
+       ->and($url->getPath())->toBe('/metallica-path')
+       ->and($url->build())->toBe('http://www.google.com/metallica-path');
+});
