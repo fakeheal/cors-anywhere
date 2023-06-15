@@ -9,7 +9,8 @@ use Symfony\Component\HttpFoundation\Response;
 
 class Proxy
 {
-    private const URL_PARAM = 'url';
+    private const METHOD_GET = 'GET';
+    private const PARAM_URL = 'url';
 
     /**
      * URL we are proxying.
@@ -43,7 +44,7 @@ class Proxy
             $this->client = new Client();
         }
 
-        $this->url = new Url($this->request->get(self::URL_PARAM, ''));
+        $this->url = new Url($this->request->get(self::PARAM_URL, ''));
     }
 
     /**
@@ -61,15 +62,13 @@ class Proxy
         // make the proxy request
         $proxyResponse = $this->client->request(
             $this->request->getMethod(),
-            $this->url->getPlain(),
-            [
+            $this->url->build(),
+            array_merge([
                 // response to proxy through 404, 500, etc
                 'http_errors' => false,
+                // "redirect" all headers
                 'headers' => $this->request->headers->all(),
-                'form_data' => $this->request->getMethod() !== 'GET'
-                    ? $this->request->getPayload()->all()
-                    : []
-            ]
+            ], $this->buildParameters())
         );
 
         // pass response headers from proxy request to our response
@@ -94,5 +93,37 @@ class Proxy
     public function handle(): void
     {
         $this->redirect()->response->send();
+    }
+
+    /**
+     * Proxy request over GET or not.
+     *
+     * @return bool
+     */
+    private function isGetRequest(): bool
+    {
+        return $this->request->getMethod() === self::METHOD_GET;
+    }
+
+    /**
+     * Build parameters passed in query string (GET) or body (anything else) for Guzzle's request.
+     *
+     * @return array
+     */
+    private function buildParameters(): array
+    {
+        if ($this->isGetRequest()) {
+            return [
+                'query' => array_filter(
+                    $this->request->query->all(),
+                    fn(string $key) => $key !== self::PARAM_URL,
+                    ARRAY_FILTER_USE_KEY
+                )
+            ];
+        }
+
+        return [
+            'form_params' => $this->request->getPayload()->all()
+        ];
     }
 }

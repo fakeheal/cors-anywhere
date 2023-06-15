@@ -24,12 +24,13 @@ it('url parses strings properly', function() {
 
    expect($url->getHost())->toBe('google.com')
        ->and($url->getScheme())->toBe('http')
-       ->and($url->getPlain())->toBe('http://google.com');
+       ->and($url->build())->toBe('http://google.com');
 });
+
 it('url handles subdomains properly', function() {
    $url = new Url('http://www.google.com');
 
    expect($url->getHost())->toBe('www.google.com')
        ->and($url->getScheme())->toBe('http')
-       ->and($url->getPlain())->toBe('http://www.google.com');
+       ->and($url->build())->toBe('http://www.google.com');
 });

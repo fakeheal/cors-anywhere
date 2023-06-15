@@ -7,11 +7,6 @@ use Fakeheal\CorsAnywhere\Exceptions\NoValidUrlProvidedException;
 readonly class Url
 {
     /**
-     * @var string
-     */
-    private string $plain;
-
-    /**
      * @var string e.g. http
      */
     private string $scheme;
@@ -42,7 +37,6 @@ readonly class Url
             );
         }
 
-        $this->plain = $url;
         $this->scheme = $scheme;
         $this->host = $host;
     }
@@ -63,11 +57,8 @@ readonly class Url
         return $this->host;
     }
 
-    /**
-     * @return string
-     */
-    public function getPlain(): string
+    public function build(): string
     {
-        return $this->plain;
+        return sprintf("%s://%s", $this->getScheme(), $this->getHost());
     }
 }
