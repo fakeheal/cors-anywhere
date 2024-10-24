@@ -49,6 +49,13 @@ try {
     die($e->getMessage()); // or die trying
 }
 ```
+### How to use 
+Once setup, you must pass a url parameter, for example if your Cors URL is the following: `http://127.0.0.1:2000`
+Then you'd do the below, the url being the proxied site you want to use.
+
+```
+http://127.0.0.1:2000/?url=https://google.com
+```
 
 ## Acknowledgements
 
